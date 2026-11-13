@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar Khabar Aurora Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#eef2ff;--mute:#a3afd1;--up:#4ade80;--upbg:#4ade8026;--dn:#fb7185;--dnbg:#fb718526;--glass:#ffffff14;--edge:#ffffff2b;--dot:#ffffff14;--a:#7c5cff;--b:#22d3ee;--c:#f472b6}
+*{box-sizing:border-box}
+html{background:#080b1a;color-scheme:dark}
+body{margin:0;color:var(--ink);font:500 15px/1.55 "Plus Jakarta Sans",system-ui,sans-serif;font-variant-numeric:tabular-nums;padding:0 14px 56px}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;filter:blur(30px);animation:drift 24s ease-in-out infinite alternate;
+background:radial-gradient(40% 40% at 15% 15%,#7c5cff77,transparent 70%),radial-gradient(35% 35% at 85% 20%,#22d3ee66,transparent 70%),radial-gradient(40% 40% at 70% 85%,#f472b666,transparent 70%),radial-gradient(35% 35% at 10% 80%,#4ade8044,transparent 70%)}
+@keyframes drift{to{transform:translate3d(3%,-3%,0) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}}
+.wrap{max-width:1080px;margin:0 auto;position:relative}
+header{padding:40px 0 8px;text-align:center}
+.chip{display:inline-block;font:700 .7rem/1 "Plus Jakarta Sans",sans-serif;letter-spacing:.2em;text-transform:uppercase;padding:7px 14px;border-radius:99px;background:var(--glass);border:1px solid var(--edge);color:var(--mute);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.chip b{color:var(--up)}
+h1{font:700 clamp(2.4rem,9vw,4.6rem)/1.05 Outfit,sans-serif;margin:16px 0 10px;letter-spacing:-.02em}
+h1 .bag{display:inline-block;margin-right:8px;animation:float 4s ease-in-out infinite}
+h1 .gt{background:linear-gradient(90deg,#c4b5fd,#67e8f9 50%,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes float{50%{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){h1 .bag{animation:none}}
+.hand{display:inline-block;margin:0;padding:6px 18px;border-radius:99px;background:var(--glass);border:1px solid var(--edge);color:var(--mute);font-size:.9rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.mood{margin:22px auto 0;max-width:560px;padding:14px 22px;border-radius:22px;border:1px solid var(--edge);background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font:700 1.3rem/1.3 Outfit,sans-serif;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+.mood.up{background:linear-gradient(135deg,#4ade8033,#22d3ee1f);border-color:#4ade8077;box-shadow:0 0 50px #4ade8033}
+.mood.dn{background:linear-gradient(135deg,#fb718533,#f472b61f);border-color:#fb718577;box-shadow:0 0 50px #fb718533}
+.mood small{font:500 .82rem "Plus Jakarta Sans",sans-serif;width:100%;text-align:center;color:var(--mute)}
+h2{display:flex;align-items:center;gap:14px;font:700 1.3rem/1 Outfit,sans-serif;margin:44px 0 16px}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.panel{background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--edge);border-radius:24px;padding:18px 20px 10px;box-shadow:0 14px 44px #00000050,inset 0 1px 0 #ffffff26;transition:transform .25s ease,box-shadow .25s ease}
+.panel:hover{transform:translateY(-3px);box-shadow:0 20px 54px #00000066,inset 0 1px 0 #ffffff33}
+@media(prefers-reduced-motion:reduce){.panel{transition:none}.panel:hover{transform:none}}
+h3{font:600 .82rem/1 "Plus Jakarta Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 6px;display:flex;gap:8px;align-items:center}
+.q{display:grid;grid-template-columns:auto 1fr auto;gap:0 12px;padding:11px 0;border-top:1px solid var(--dot);align-items:center}
+h3+.q{border-top:0}
+.q .e{grid-row:1/3;font-size:1.5rem;width:44px;height:44px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,#ffffff24,#ffffff0a);border:1px solid var(--edge)}
+.q .n{font:600 1rem/1.2 Outfit,sans-serif}
+.q .b{grid-column:2;color:var(--mute);font-size:.74rem;line-height:1.25}
+.q .l{grid-column:3;grid-row:1;text-align:right;font:700 1.2rem/1.2 Outfit,sans-serif}
+.q .c{grid-column:3;grid-row:2;justify-self:end;font-size:.76rem;font-weight:700;padding:1px 10px;border-radius:99px;color:var(--mute);background:var(--dot)}
+.up .c{color:var(--up);background:var(--upbg)}.dn .c{color:var(--dn);background:var(--dnbg)}
+.q.old{opacity:.5}
+.big .l{font-size:1.85rem}
+.hot .s{padding:11px 0;border-top:1px solid var(--dot)}
+h3+.s{border-top:0}
+.s .top{display:flex;justify-content:space-between;align-items:center;gap:10px;font:600 1rem Outfit,sans-serif}
+.s .top i{font-style:normal;margin-right:6px}
+.pill{font:700 .82rem "Plus Jakarta Sans",sans-serif;padding:3px 11px;border-radius:99px;white-space:nowrap}
+.up .pill{background:var(--upbg);color:var(--up)}.dn .pill{background:var(--dnbg);color:var(--dn)}
+.s .why{font-size:.82rem;margin-top:4px}.s .why a{color:var(--mute);text-decoration:none}.s .why a:hover{color:#c4b5fd}
+.bull{background:linear-gradient(180deg,#4ade8026,var(--glass) 130px)}
+.bear{background:linear-gradient(180deg,#fb718526,var(--glass) 130px)}
+.news a{display:block;padding:12px 0;border-top:1px solid var(--dot);color:inherit;text-decoration:none}
+h3+a{border-top:0!important}
+.news a:hover .t{color:#c4b5fd}
+.news .t{font-weight:600;line-height:1.4;transition:color .2s}
+.news .m{font-size:.76rem;color:var(--mute);margin-top:4px}
+.empty{color:var(--mute);padding:12px 0}
+.src{font-size:.85rem;padding-left:20px}.src a{color:var(--mute)}.src a:hover{color:#67e8f9}
+.disc{margin:44px auto 0;max-width:780px;padding:16px 22px;border:1px dashed var(--edge);border-radius:22px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-align:center;font-size:.88rem;line-height:1.55;color:var(--mute)}
+.disc b{font:700 1rem Outfit,sans-serif;display:block;margin-bottom:2px;color:var(--ink)}
+.credit{margin:24px auto 0;max-width:780px;padding:20px 22px;border-radius:24px;border:1px solid var(--edge);background:linear-gradient(135deg,#7c5cff40,#22d3ee26);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);text-align:center;box-shadow:0 14px 44px #00000050}
+.credit .by{font:700 1.15rem/1.3 Outfit,sans-serif}
+.credit .biz{margin-top:6px;font-weight:600}
+.credit a{color:#67e8f9}
+a:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="chip"><b>●</b> Live market desk</div>
+  <h1><span class="bag">🛍️</span><span class="gt">Bazaar Khabar</span></h1>
+  <p class="hand">Data ka waqt: <span id="asof">—</span> ✨</p>
+  <div id="mood"></div>
+</header>
+<div id="app"></div>
+<div class="disc"><b>⚠️ Disclaimer</b>This is not investment advice. Please consult your research analyst before making any investment decision. This is only a broad market outlook, and prices may be delayed or inaccurate.</div>
+<div class="credit">
+  <div class="by">✨ Developed by Dinesh Jaiswar &nbsp;•&nbsp;  ✨</div>
+  <div class="biz">📈 Bqube Investment &nbsp;•&nbsp; 📞 Call us: <a href="tel:7000816068">7000816068</a></div>
+</div>
+</div>
+<script>
+const EMBED = {
+ "asOfLabel": "",
+ "groups": {},
+ "bull": [], "bear": [],
+ "newsIndia": [], "newsWorld": [],
+ "sources": []
+};
+
+const $ = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const app = document.getElementById('app');
+const ICON = [['sensex','📈'],['nifty se','↔️'],['gift','🎁'],['nifty','🎯'],['bank','🏦'],['vix','😱'],['dow','🏛️'],['s&p','🇺🇸'],['nasdaq','💻'],['ftse','🇬🇧'],['euro','🇪🇺'],['dax','🇩🇪'],['nikkei','🇯🇵'],['kospi','🇰🇷'],['hang','🇭🇰'],['brent','🛢️'],['wti','⛽'],['sona','🥇'],['chandi','🥈'],['usd/inr','💵'],['dollar','💲'],['yield','🏷️']];
+const icon = n => (ICON.find(([k]) => n.toLowerCase().includes(k)) || [0,'📊'])[1];
+
+function quote(t, big) {
+  const cls = t.dir === 'up' ? 'up' : t.dir === 'down' ? 'dn' : '';
+  const q = $('div', 'q ' + cls + (t.old ? ' old' : '') + (big ? ' big' : ''));
+  const c = [t.chg, t.pct].filter(Boolean).join('  ');
+  q.append($('div', 'e', icon(t.name)), $('div', 'n', t.name), $('div', 'l', t.level),
+    $('div', 'b', (t.old ? 'purana: ' : '') + (t.basis || '')), $('div', 'c', (t.dir === 'up' ? '▲ ' : t.dir === 'down' ? '▼ ' : '') + c));
+  return q;
+}
+function panel(title, tiles, big) {
+  const p = $('div', 'panel');
+  if (title) p.append($('h3', '', title));
+  (tiles || []).forEach(t => p.append(quote(t, big)));
+  if (!tiles || !tiles.length) p.append($('div', 'empty', 'Data nahi aaya 🫥'));
+  return p;
+}
+let sec = 0;
+function section(title, cls, panels) {
+  const w = $('section', 's' + (++sec)); w.append($('h2', '', title));
+  const g = $('div', 'grid ' + cls); panels.forEach(p => g.append(p)); w.append(g); app.append(w);
+}
+function stocks(list, kind, title, em) {
+  const p = $('div', 'panel hot ' + kind); p.append($('h3', '', title));
+  if (!list.length) p.append($('div', 'empty', 'Aaj ka data nahi aaya 🫥'));
+  list.forEach((s, i) => {
+    const r = $('div', 's ' + (s.dir === 'down' ? 'dn' : 'up')), top = $('div', 'top');
+    const nm = $('span'); nm.append($('i', '', em[i % em.length]), s.name);
+    top.append(nm, $('span', 'pill', s.price + '  ' + s.pct)); r.append(top);
+    if (s.note) { const w = $('div', 'why'), a = $('a', '', '📰 ' + s.note + (s.when ? '  •  ⏱️ ' + s.when : '')); a.href = s.link; a.target = '_blank'; a.rel = 'noopener'; w.append(a); r.append(w); }
+    p.append(r);
+  });
+  return p;
+}
+function news(list, title) {
+  const p = $('div', 'panel news'); p.append($('h3', '', title));
+  if (!list.length) p.append($('div', 'empty', 'Pichle 24 ghante mein nayi khabar nahi mili 🌙'));
+  list.forEach(n => {
+    const a = $('a'); a.href = n.link; a.target = '_blank'; a.rel = 'noopener';
+    a.append($('div', 't', n.title), $('div', 'm', '🗞️ ' + n.tag + '  •  ⏱️ ' + n.when)); p.append(a);
+  });
+  return p;
+}
+
+const g = EMBED.groups || {};
+document.getElementById('asof').textContent = EMBED.asOfLabel || 'abhi tak data nahi';
+if (!Object.keys(g).length) {
+  const p = $('div', 'panel'); p.style.marginTop = '28px';
+  p.append($('div', 'empty', 'Abhi data nahi hai 🌱 bazaar_update.bat chalayein, naya page ban jayega.'));
+  app.append(p);
+} else {
+  const nf = (g.india || []).find(t => t.name === 'Nifty 50' && !t.old);
+  if (nf && nf.dir !== 'flat') {
+    const up = nf.dir === 'up', m = $('div', 'mood ' + (up ? 'up' : 'dn'));
+    m.append($('span', '', up ? '🐂 Aaj ka mood: Tezi!' : '🐻 Aaj ka mood: Mandi'), $('span', '', nf.pct), $('small', '', 'Nifty 50 ke pichhle close ke hisaab se'));
+    document.getElementById('mood').append(m);
+  }
+  section('🇮🇳 Bharat ka bazaar', 'g2', [panel('📊 Index', g.india, true), panel('🔮 Bharat ke futures', g.inFut)]);
+  section('🌍 Duniya ke bazaar', 'g3', [panel('🗽 Amrika', g.us), panel('🏰 Europe', g.eu), panel('🏯 Asia', g.asia)]);
+  section('🔮 Unke futures', 'g3', [panel('🗽 Amrika', g.usFut), panel('🏰 Europe', g.euFut), panel('🏯 Asia', g.asiaFut)]);
+  section('🛢️ Tel, sona-chandi, dollar, bond', 'g2', [panel('', (g.macro || []).slice(0, 4)), panel('', (g.macro || []).slice(4))]);
+  section('🔥 Aaj ke hot stocks', 'g2', [stocks(EMBED.bull, 'bull', '🐂 Tezi mein (Nifty 50)', ['🚀','🔥','⚡','💪','🌟']), stocks(EMBED.bear, 'bear', '🐻 Mandi mein (Nifty 50)', ['🧊','🥶','📉','⚠️','🍂'])]);
+  section('📰 Taaza khabrein', 'g2', [news(EMBED.newsIndia, '🇮🇳 India ki khabrein'), news(EMBED.newsWorld, '🌍 Duniya ki khabrein')]);
+  const ws = $('section', 's7'); ws.append($('h2', '', '🔗 Sources'));
+  const ul = $('ul', 'src');
+  (EMBED.sources || []).forEach(s => { const li = $('li'), a = $('a', '', s.t); a.href = s.u; a.target = '_blank'; a.rel = 'noopener'; li.append(a); ul.append(li); });
+  ws.append(ul); app.append(ws);
+}
+</script>
+</body>
+</html>

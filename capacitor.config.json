@@ -1,0 +1,12 @@
+{
+  "appId": "in.bqube.bazaarkhabar",
+  "appName": "Bazaar Khabar",
+  "webDir": "www",
+  "android": {
+    "adjustMarginsForEdgeToEdge": "force",
+    "allowMixedContent": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

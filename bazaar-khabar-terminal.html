@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar Khabar Terminal Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070b14;--card:#0d1423;--line:#1d2a44;--ink:#d7e2f5;--mute:#7f93b5;--up:#27e58f;--upbg:#0e3b2c;--dn:#ff5577;--dnbg:#401626;--amb:#ffb020;--cy:#38bdf8;--dot:#ffffff0f}
+*{box-sizing:border-box}
+html{background:var(--bg);color-scheme:dark}
+body{margin:0;color:var(--ink);font:400 14px/1.5 "JetBrains Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums;padding:0 14px 56px;
+background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:34px 34px}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(60% 45% at 50% -5%,#1c3d7a66,transparent 70%),radial-gradient(40% 30% at 100% 100%,#0e4d3a40,transparent 70%)}
+.wrap{max-width:1100px;margin:0 auto;position:relative}
+header{padding:28px 0 6px}
+.status{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.72rem;letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+.status i{font-style:normal;border:1px solid var(--line);padding:1px 8px;border-radius:3px}
+.status .dot{width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 10px var(--up);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+h1{font:700 clamp(1.9rem,7.5vw,3.6rem)/1.05 "Space Grotesk",sans-serif;margin:14px 0 8px;letter-spacing:.02em;background:linear-gradient(90deg,var(--up),var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .bag{display:inline-block;color:var(--amb);-webkit-text-fill-color:var(--amb);margin-right:8px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){h1 .bag,.status .dot{animation:none}}
+.hand{font:400 .9rem/1.3 "JetBrains Mono",monospace;color:var(--amb);margin:0}
+.mood{margin:18px 0 0;max-width:620px;padding:12px 18px;border:1px solid var(--line);border-left:4px solid var(--amb);border-radius:4px;background:var(--card);display:flex;gap:12px;align-items:center;flex-wrap:wrap;font:700 1.1rem/1.3 "Space Grotesk",sans-serif}
+.mood.up{border-left-color:var(--up);color:var(--up);background:linear-gradient(90deg,var(--upbg),var(--card))}
+.mood.dn{border-left-color:var(--dn);color:var(--dn);background:linear-gradient(90deg,var(--dnbg),var(--card))}
+.mood small{font:400 .75rem "JetBrains Mono",monospace;width:100%;color:var(--mute);letter-spacing:.06em}
+h2{display:flex;align-items:center;gap:12px;font:700 .95rem/1 "Space Grotesk",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);margin:38px 0 14px}
+h2::before{content:"//";color:var(--mute)}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.panel{background:var(--card);border:1px solid var(--line);border-top:2px solid var(--cy);border-radius:6px;padding:14px 16px 6px;box-shadow:0 12px 30px #00000055}
+h3{font:600 .76rem/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:0 0 4px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center}
+.q{display:grid;grid-template-columns:auto 1fr auto;gap:0 12px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+h3+.q{border-top:0}
+.q .e{grid-row:1/3;font-size:1.25rem;width:38px;height:38px;display:grid;place-items:center;border-radius:4px;background:var(--dot);border:1px solid var(--line)}
+.q .n{font:600 .92rem/1.2 "Space Grotesk",sans-serif}
+.q .b{grid-column:2;color:var(--mute);font-size:.68rem;line-height:1.25}
+.q .l{grid-column:3;grid-row:1;text-align:right;font:700 1.1rem/1.2 "JetBrains Mono",monospace}
+.q .c{grid-column:3;grid-row:2;justify-self:end;font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:3px;color:var(--mute);background:var(--dot)}
+.up .c{color:var(--up);background:var(--upbg)}.dn .c{color:var(--dn);background:var(--dnbg)}
+.q.up .l{color:var(--up)}.q.dn .l{color:var(--dn)}
+.q.old{opacity:.45}
+.big .l{font-size:1.55rem}
+.hot .s{padding:10px 0;border-top:1px solid var(--line)}
+h3+.s{border-top:0}
+.s .top{display:flex;justify-content:space-between;align-items:center;gap:10px;font:600 .95rem "Space Grotesk",sans-serif}
+.s .top i{font-style:normal;margin-right:6px}
+.pill{font:700 .78rem "JetBrains Mono",monospace;padding:2px 9px;border-radius:3px;white-space:nowrap}
+.up .pill{background:var(--upbg);color:var(--up)}.dn .pill{background:var(--dnbg);color:var(--dn)}
+.s .why{font-size:.78rem;margin-top:4px;line-height:1.4}.s .why a{color:var(--mute);text-decoration:none}.s .why a:hover{color:var(--cy)}
+.bull{border-top-color:var(--up)}.bear{border-top-color:var(--dn)}
+.news a{display:block;padding:11px 0;border-top:1px solid var(--line);color:inherit;text-decoration:none}
+h3+a{border-top:0!important}
+.news a:hover .t{color:var(--cy)}
+.news .t{font:600 .95rem/1.4 "Space Grotesk",sans-serif}
+.news .m{font-size:.7rem;color:var(--mute);margin-top:4px}
+.empty{color:var(--mute);padding:12px 0;font-style:italic}
+.src{font-size:.8rem;padding-left:20px;color:var(--mute)}.src a{color:var(--mute)}.src a:hover{color:var(--cy)}
+.disc{margin:40px auto 0;max-width:780px;padding:16px 22px;border:1px dashed var(--amb);border-radius:6px;background:var(--card);text-align:center;font-size:.82rem;line-height:1.6;color:var(--mute)}
+.disc b{font:700 .9rem "Space Grotesk",sans-serif;display:block;margin-bottom:4px;color:var(--amb);letter-spacing:.14em;text-transform:uppercase}
+.credit{margin:22px auto 0;max-width:780px;padding:18px 22px;border:1px solid var(--cy);border-radius:6px;background:linear-gradient(135deg,#0d2a47,var(--card));text-align:center;box-shadow:0 0 30px #38bdf822}
+.credit .by{font:700 1.05rem/1.3 "Space Grotesk",sans-serif}
+.credit .biz{margin-top:6px;font-size:.9rem;color:var(--mute)}
+.credit a{color:var(--cy)}
+a:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="status"><span class="dot"></span> LIVE DESK <i>NSE</i><i>BSE</i><i>GIFT</i><i>COMEX</i><i>FX</i></div>
+  <h1><span class="bag">▮</span>BAZAAR_KHABAR</h1>
+  <p class="hand">&gt; Data ka waqt: <span id="asof">—</span> ✨</p>
+  <div id="mood"></div>
+</header>
+<div id="app"></div>
+<div class="disc"><b>⚠️ Disclaimer</b>This is not investment advice. Please consult your research analyst before making any investment decision. This is only a broad market outlook, and prices may be delayed or inaccurate.</div>
+<div class="credit">
+  <div class="by">✨ Developed by Dinesh Jaiswar &nbsp;•&nbsp;  ✨</div>
+  <div class="biz">📈 Bqube Investment &nbsp;•&nbsp; 📞 Call us: <a href="tel:7000816068">7000816068</a></div>
+</div>
+</div>
+<script>
+const EMBED = {
+ "asOfLabel": "",
+ "groups": {},
+ "bull": [], "bear": [],
+ "newsIndia": [], "newsWorld": [],
+ "sources": []
+};
+
+const $ = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const app = document.getElementById('app');
+const ICON = [['sensex','📈'],['nifty se','↔️'],['gift','🎁'],['nifty','🎯'],['bank','🏦'],['vix','😱'],['dow','🏛️'],['s&p','🇺🇸'],['nasdaq','💻'],['ftse','🇬🇧'],['euro','🇪🇺'],['dax','🇩🇪'],['nikkei','🇯🇵'],['kospi','🇰🇷'],['hang','🇭🇰'],['brent','🛢️'],['wti','⛽'],['sona','🥇'],['chandi','🥈'],['usd/inr','💵'],['dollar','💲'],['yield','🏷️']];
+const icon = n => (ICON.find(([k]) => n.toLowerCase().includes(k)) || [0,'📊'])[1];
+
+function quote(t, big) {
+  const cls = t.dir === 'up' ? 'up' : t.dir === 'down' ? 'dn' : '';
+  const q = $('div', 'q ' + cls + (t.old ? ' old' : '') + (big ? ' big' : ''));
+  const c = [t.chg, t.pct].filter(Boolean).join('  ');
+  q.append($('div', 'e', icon(t.name)), $('div', 'n', t.name), $('div', 'l', t.level),
+    $('div', 'b', (t.old ? 'purana: ' : '') + (t.basis || '')), $('div', 'c', (t.dir === 'up' ? '▲ ' : t.dir === 'down' ? '▼ ' : '') + c));
+  return q;
+}
+function panel(title, tiles, big) {
+  const p = $('div', 'panel');
+  if (title) p.append($('h3', '', title));
+  (tiles || []).forEach(t => p.append(quote(t, big)));
+  if (!tiles || !tiles.length) p.append($('div', 'empty', 'Data nahi aaya 🫥'));
+  return p;
+}
+let sec = 0;
+function section(title, cls, panels) {
+  const w = $('section', 's' + (++sec)); w.append($('h2', '', title));
+  const g = $('div', 'grid ' + cls); panels.forEach(p => g.append(p)); w.append(g); app.append(w);
+}
+function stocks(list, kind, title, em) {
+  const p = $('div', 'panel hot ' + kind); p.append($('h3', '', title));
+  if (!list.length) p.append($('div', 'empty', 'Aaj ka data nahi aaya 🫥'));
+  list.forEach((s, i) => {
+    const r = $('div', 's ' + (s.dir === 'down' ? 'dn' : 'up')), top = $('div', 'top');
+    const nm = $('span'); nm.append($('i', '', em[i % em.length]), s.name);
+    top.append(nm, $('span', 'pill', s.price + '  ' + s.pct)); r.append(top);
+    if (s.note) { const w = $('div', 'why'), a = $('a', '', '📰 ' + s.note + (s.when ? '  •  ⏱️ ' + s.when : '')); a.href = s.link; a.target = '_blank'; a.rel = 'noopener'; w.append(a); r.append(w); }
+    p.append(r);
+  });
+  return p;
+}
+function news(list, title) {
+  const p = $('div', 'panel news'); p.append($('h3', '', title));
+  if (!list.length) p.append($('div', 'empty', 'Pichle 24 ghante mein nayi khabar nahi mili 🌙'));
+  list.forEach(n => {
+    const a = $('a'); a.href = n.link; a.target = '_blank'; a.rel = 'noopener';
+    a.append($('div', 't', n.title), $('div', 'm', '🗞️ ' + n.tag + '  •  ⏱️ ' + n.when)); p.append(a);
+  });
+  return p;
+}
+
+const g = EMBED.groups || {};
+document.getElementById('asof').textContent = EMBED.asOfLabel || 'abhi tak data nahi';
+if (!Object.keys(g).length) {
+  const p = $('div', 'panel'); p.style.marginTop = '28px';
+  p.append($('div', 'empty', 'Abhi data nahi hai 🌱 bazaar_update.bat chalayein, naya page ban jayega.'));
+  app.append(p);
+} else {
+  const nf = (g.india || []).find(t => t.name === 'Nifty 50' && !t.old);
+  if (nf && nf.dir !== 'flat') {
+    const up = nf.dir === 'up', m = $('div', 'mood ' + (up ? 'up' : 'dn'));
+    m.append($('span', '', up ? '🐂 Aaj ka mood: Tezi!' : '🐻 Aaj ka mood: Mandi'), $('span', '', nf.pct), $('small', '', 'Nifty 50 ke pichhle close ke hisaab se'));
+    document.getElementById('mood').append(m);
+  }
+  section('🇮🇳 Bharat ka bazaar', 'g2', [panel('📊 Index', g.india, true), panel('🔮 Bharat ke futures', g.inFut)]);
+  section('🌍 Duniya ke bazaar', 'g3', [panel('🗽 Amrika', g.us), panel('🏰 Europe', g.eu), panel('🏯 Asia', g.asia)]);
+  section('🔮 Unke futures', 'g3', [panel('🗽 Amrika', g.usFut), panel('🏰 Europe', g.euFut), panel('🏯 Asia', g.asiaFut)]);
+  section('🛢️ Tel, sona-chandi, dollar, bond', 'g2', [panel('', (g.macro || []).slice(0, 4)), panel('', (g.macro || []).slice(4))]);
+  section('🔥 Aaj ke hot stocks', 'g2', [stocks(EMBED.bull, 'bull', '🐂 Tezi mein (Nifty 50)', ['🚀','🔥','⚡','💪','🌟']), stocks(EMBED.bear, 'bear', '🐻 Mandi mein (Nifty 50)', ['🧊','🥶','📉','⚠️','🍂'])]);
+  section('📰 Taaza khabrein', 'g2', [news(EMBED.newsIndia, '🇮🇳 India ki khabrein'), news(EMBED.newsWorld, '🌍 Duniya ki khabrein')]);
+  const ws = $('section', 's7'); ws.append($('h2', '', '🔗 Sources'));
+  const ul = $('ul', 'src');
+  (EMBED.sources || []).forEach(s => { const li = $('li'), a = $('a', '', s.t); a.href = s.u; a.target = '_blank'; a.rel = 'noopener'; li.append(a); ul.append(li); });
+  ws.append(ul); app.append(ws);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Bazaar Khabar</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#0b1020;color:#eef2ff;font:16px/1.4 system-ui,sans-serif;padding:24px 16px;display:flex;flex-direction:column;align-items:center}
+h1{margin:12px 0 4px;font-size:1.7rem}
+p{margin:0 0 22px;color:#94a3c8;text-align:center}
+a.b,button.b{display:block;width:100%;max-width:420px;margin:8px 0;padding:18px;border-radius:14px;background:#17203a;border:1px solid #2a3558;color:#eef2ff;text-decoration:none;text-align:left;font:inherit;cursor:pointer}
+a.b b,button.b b{display:block;font-size:1.1rem}
+a.b span,button.b span{color:#94a3c8;font-size:.85rem}
+.b:active{background:#223056}
+.spin{width:46px;height:46px;border:5px solid #2a3558;border-top-color:#7c9cff;border-radius:50%;animation:s 1s linear infinite;margin:40px 0 18px}
+@keyframes s{to{transform:rotate(360deg)}}
+#msg{color:#94a3c8;font-size:.9rem;min-height:3em;text-align:center}
+.err{color:#ff8a8a;white-space:pre-wrap;font-size:.85rem;max-width:420px;margin:12px 0}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="app.js"></script>
+<script>
+(function () {
+'use strict';
+const STYLES = {
+  1: ['Rangeela Bazaar', 'rangeen aur mazedaar', 'bazaar-khabar.html'],
+  2: ['Terminal Pro', 'dark, trader jaisa', 'bazaar-khabar-terminal.html'],
+  3: ['Akhbaar', 'purane newspaper jaisa', 'bazaar-khabar-akhbaar.html'],
+  4: ['Aurora Glass', 'chamakdaar, shishe jaisa', 'bazaar-khabar-aurora.html'],
+  5: ['Neon Synthwave', 'neon glow, retro', 'bazaar-khabar-neon.html'],
+  6: ['Clean Minimal', 'saaf, Apple jaisa', 'bazaar-khabar-minimal.html'],
+  7: ['Gold Festive', 'sunehri, tyohaar wala', 'bazaar-khabar-gold.html'],
+};
+const CACHE_KEY = 'bk_cache_v1', CACHE_MS = 5 * 60 * 1000;
+const root = document.getElementById('root');
+const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+function getSaveFile() {
+  const C = window.Capacitor;
+  if (!C) return null;
+  if (C.Plugins && C.Plugins.SaveFile) return C.Plugins.SaveFile;
+  if (C.registerPlugin) { try { return C.registerPlugin('SaveFile'); } catch (e) { /* aage dekho */ } }
+  return null;
+}
+
+function readCache() { try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; } }
+function writeCache(d) { try { localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), d })); } catch (e) { /* bhar gaya to chhod do */ } }
+
+function menu() {
+  root.replaceChildren(el('h1', '', '📈 Bazaar Khabar'), el('p', '', 'Design chuniye'));
+  for (const k of Object.keys(STYLES)) {
+    const a = el('a', 'b'); a.href = '?s=' + k;
+    a.append(el('b', '', STYLES[k][0]), el('span', '', STYLES[k][1]));
+    root.append(a);
+  }
+  root.append(el('p', '', 'Data har 5 minute mein taaza hota hai'));
+}
+
+function loading(text) {
+  root.replaceChildren(el('h1', '', '📈 Bazaar Khabar'), el('div', 'spin'), Object.assign(el('div'), { id: 'msg', textContent: text }));
+}
+
+// Page ki HTML file Downloads mein save (BK.save ko page ka "Save" button bulata hai)
+function fileName() {
+  const d = new Date(Date.now() + 330 * 60000), p = n => String(n).padStart(2, '0');
+  return 'BazaarKhabar_' + d.getUTCFullYear() + '-' + p(d.getUTCMonth() + 1) + '-' + p(d.getUTCDate()) + '_' + p(d.getUTCHours()) + p(d.getUTCMinutes()) + '.html';
+}
+window.BK.save = function (cb) {
+  const name = fileName();
+  const SaveFile = getSaveFile();
+  if (!SaveFile || !window.BK.lastPage) { cb(false, '❌ Save sirf app ke andar chalta hai.'); return; }
+  SaveFile.saveHtml({ name: name, data: window.BK.lastPage })
+    .then(function () { cb(true, '✅ Downloads folder mein save ho gaya:\n' + name); })
+    .catch(function (e) { cb(false, '❌ Save nahi hua: ' + ((e && e.message) || e)); });
+};
+
+const BTN = 'pointer-events:auto;background:#111;color:#fff;padding:12px 14px;border-radius:999px;font:600 14px system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 14px #0008;opacity:.93';
+function chrome(k) {
+  return '<div style="height:84px"></div>'
+    + '<div style="position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;justify-content:space-between;gap:8px;padding:0 12px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none">'
+    + '<a href="index.html" style="' + BTN + '">☰ Design</a>'
+    + '<a href="#" id="bk-save" style="' + BTN + '">💾 Save</a>'
+    + '<a href="index.html?s=' + k + '&r=1" style="' + BTN + '">🔄 Refresh</a></div>'
+    + '<div id="bk-toast" style="display:none;position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:100000;background:#0f5132;color:#fff;padding:12px 14px;border-radius:12px;font:600 14px/1.4 system-ui,sans-serif;white-space:pre-wrap"></div>'
+    + '<script>document.addEventListener("click",function(e){'
+    + 'var s=e.target.closest&&e.target.closest("#bk-save");'
+    + 'if(s){e.preventDefault();BK.save(function(ok,msg){var t=document.getElementById("bk-toast");t.style.background=ok?"#0f5132":"#842029";t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},6000);});return;}'
+    // khabar ke bahar ke links phone ke browser mein khulenge
+    + 'var a=e.target.closest&&e.target.closest(\'a[href^="http"]\');if(a){e.preventDefault();location.href=a.href;}'
+    + '},true);<\/script>';
+}
+
+async function show(k, force) {
+  loading('Data la raha hoon...');
+  const setMsg = m => { const e = document.getElementById('msg'); if (e) e.textContent = m; };
+  let data = null;
+  const c = readCache();
+  if (!force && c && Date.now() - c.at < CACHE_MS) data = c.d;
+  if (!data) {
+    try { data = await BK.buildData(setMsg); writeCache(data); }
+    catch (e) {
+      if (c) data = c.d;   // net na ho to pichhla data dikhao
+      else {
+        root.replaceChildren(el('h1', '', '📈 Bazaar Khabar'), el('p', '', 'Data nahi aa saka. Internet check karein.'), el('div', 'err', String(e && e.message || e)));
+        const b = el('a', 'b'); b.href = '?s=' + k + '&r=1'; b.append(el('b', '', '🔄 Dobara koshish karein')); root.append(b);
+        return;
+      }
+    }
+  }
+  const tpl = await (await fetch('tpl/' + STYLES[k][2])).text();
+  const page = BK.inject(tpl, data);
+  window.BK.lastPage = page;                 // saaf page (bina buttons) - Save ke liye
+  const i = page.toLowerCase().lastIndexOf('</body>');
+  const full = i < 0 ? page + chrome(k) : page.slice(0, i) + chrome(k) + page.slice(i);
+  document.open(); document.write(full); document.close();
+}
+
+const params = new URLSearchParams(location.search), style = params.get('s');
+if (style && STYLES[style]) show(style, params.get('r') === '1'); else menu();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "bazaar-khabar-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bazaar Khabar - Android app",
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  }
+}

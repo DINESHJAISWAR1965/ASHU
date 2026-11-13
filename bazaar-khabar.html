@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar Khabar 🛍️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Caveat:wght@700&family=Nunito:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff3de;--card:#fffdf8;--ink:#2b1d4a;--mute:#7a6c93;--up:#12a36b;--upbg:#c9f5df;--dn:#e5384f;--dnbg:#ffd6dc;
+--c1:#ffb703;--c2:#ff7aa8;--c3:#2ec4b6;--c4:#8f6bff;--c5:#4cc9f0;--c6:#ff8a3d;--dot:#2b1d4a14}
+@media(prefers-color-scheme:dark){:root{--bg:#1d1535;--card:#2a1f4d;--ink:#fff3de;--mute:#b9aad6;--up:#4ee3a0;--upbg:#14473a;--dn:#ff7b8f;--dnbg:#4d1f33;--dot:#fff3de14}}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;color:var(--ink);font:500 15px/1.5 Nunito,system-ui,sans-serif;font-variant-numeric:tabular-nums;padding:0 14px 56px;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' fill='none' stroke='%237a6c93' stroke-opacity='.25' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M20 30l4 8 8 1-6 6 2 8-8-4-8 4 2-8-6-6 8-1z'/%3E%3Ccircle cx='110' cy='28' r='7'/%3E%3Cpath d='M70 90q6-10 12 0t12 0'/%3E%3Cpath d='M128 110v14M121 117h14'/%3E%3Ccircle cx='30' cy='120' r='4'/%3E%3C/svg%3E")}
+.wrap{max-width:1080px;margin:0 auto;position:relative}
+header{position:relative;padding:34px 0 10px;text-align:center}
+h1{font:800 clamp(2.4rem,9vw,4.4rem)/1 "Baloo 2",sans-serif;margin:0;letter-spacing:-.01em}
+h1 .bag{display:inline-block;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-6deg)}}
+@media(prefers-reduced-motion:reduce){h1 .bag{animation:none}}
+.squig{display:block;margin:2px auto 0;width:min(320px,70%);height:14px}
+.hand{font:700 1.5rem/1.1 Caveat,cursive;color:var(--mute);margin:8px 0 0}
+.deco{position:absolute;pointer-events:none}
+.mood{margin:22px auto 0;max-width:640px;padding:14px 20px;border:3px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);
+background:var(--c1);color:#2b1d4a;font:800 1.25rem/1.3 "Baloo 2",sans-serif;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;transform:rotate(-1deg)}
+.mood.up{background:#9ff0c8}.mood.dn{background:#ffb3bf}
+.mood small{font:700 1.2rem Caveat,cursive;width:100%;text-align:center;opacity:.8}
+h2{display:inline-block;font:800 1.35rem/1 "Baloo 2",sans-serif;margin:40px 0 16px;padding:8px 18px 6px;border:3px solid var(--ink);border-radius:99px;
+box-shadow:4px 4px 0 var(--ink);color:#2b1d4a;transform:rotate(-1.2deg);background:var(--c1)}
+.s2 h2{background:var(--c5)}.s3 h2{background:var(--c2)}.s4 h2{background:var(--c3)}.s5 h2{background:var(--c4);color:#fff}.s6 h2{background:var(--c6)}.s7 h2{background:var(--c5)}
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.panel{background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);padding:16px 18px 10px}
+h3{font:800 1.05rem/1 "Baloo 2",sans-serif;margin:0 0 6px;display:flex;gap:8px;align-items:center}
+.q{display:grid;grid-template-columns:auto 1fr auto;gap:0 12px;padding:11px 0;border-top:2.5px dashed var(--dot);align-items:center}
+h3+.q{border-top:0}
+.q .e{grid-row:1/3;font-size:1.7rem;width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:var(--dot)}
+.q .n{font:800 1.02rem/1.2 "Baloo 2",sans-serif}
+.q .b{grid-column:2;color:var(--mute);font-size:.76rem;line-height:1.25}
+.q .l{grid-column:3;grid-row:1;text-align:right;font:800 1.2rem/1.2 "Baloo 2",sans-serif}
+.q .c{grid-column:3;grid-row:2;justify-self:end;font-size:.78rem;font-weight:700;padding:1px 9px;border-radius:99px;color:var(--mute);background:var(--dot)}
+.up .c{color:var(--up);background:var(--upbg)}.dn .c{color:var(--dn);background:var(--dnbg)}
+.q.old{opacity:.5}
+.big .l{font-size:1.9rem}
+.hot .s{padding:11px 0;border-top:2.5px dashed var(--dot)}
+h3+.s{border-top:0}
+.s .top{display:flex;justify-content:space-between;align-items:center;gap:10px;font:800 1.02rem "Baloo 2",sans-serif}
+.s .top i{font-style:normal;margin-right:6px}
+.pill{font:800 .85rem Nunito,sans-serif;padding:2px 10px;border-radius:99px;white-space:nowrap}
+.up .pill{background:var(--upbg);color:var(--up)}.dn .pill{background:var(--dnbg);color:var(--dn)}
+.s .why{font-size:.84rem;margin-top:3px}.s .why a{color:var(--mute)}
+.bull{background:linear-gradient(var(--upbg),var(--card) 90px)}.bear{background:linear-gradient(var(--dnbg),var(--card) 90px)}
+.news a{display:block;padding:11px 0;border-top:2.5px dashed var(--dot);color:inherit;text-decoration:none}
+h3+a{border-top:0!important}
+.news a:hover .t{text-decoration:underline wavy var(--c4)}
+.news .t{font-weight:700;line-height:1.35}
+.news .m{font-size:.78rem;color:var(--mute);margin-top:3px}
+.empty{color:var(--mute);padding:12px 0;font:700 1.15rem Caveat,cursive}
+.src{font-size:.85rem;padding-left:20px}.src a{color:var(--mute)}
+.note{margin-top:34px;text-align:center;font:700 1.15rem Caveat,cursive;color:var(--mute)}
+.disc{margin:40px auto 0;max-width:760px;padding:16px 22px;border:3px dashed var(--ink);border-radius:22px;background:var(--card);text-align:center;font-size:.92rem;line-height:1.5}
+.disc b{font:800 1.1rem "Baloo 2",sans-serif;display:block;margin-bottom:2px}
+.credit{margin:26px auto 0;max-width:760px;padding:18px 22px;border:3px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);background:var(--c1);color:#2b1d4a;text-align:center;font-weight:700;transform:rotate(.6deg)}
+.credit .by{font:800 1.15rem/1.3 "Baloo 2",sans-serif}
+.credit .biz{margin-top:6px;font:800 1.05rem "Baloo 2",sans-serif}
+.credit a{color:inherit;text-decoration:underline wavy #8f6bff;text-underline-offset:4px}
+a:focus-visible{outline:3px solid var(--c4);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <svg class="deco" style="left:2%;top:18px;width:84px" viewBox="0 0 90 90" fill="none" stroke="#ffb703" stroke-width="5" stroke-linecap="round" aria-hidden="true"><circle cx="45" cy="45" r="16" fill="#ffe08a"/><path d="M45 8v12M45 70v12M8 45h12M70 45h12M19 19l8 8M63 63l8 8M71 19l-8 8M27 63l-8 8"/></svg>
+  <svg class="deco" style="right:2%;top:22px;width:92px" viewBox="0 0 100 80" fill="none" stroke="#2b1d4a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 66l24-26 16 14 28-34" stroke="#12a36b"/><path d="M60 20h16v16" stroke="#12a36b"/><circle cx="20" cy="22" r="11" fill="#ffd166"/><path d="M20 17v10M16 20h8" stroke-width="3"/></svg>
+  <h1><span class="bag">🛍️</span> Bazaar Khabar</h1>
+  <svg class="squig" viewBox="0 0 320 14" fill="none" stroke="#ff7aa8" stroke-width="5" stroke-linecap="round" aria-hidden="true"><path d="M4 8q10-10 20 0t20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0"/></svg>
+  <p class="hand">Data ka waqt: <span id="asof">—</span> ✨</p>
+  <div id="mood"></div>
+</header>
+<div id="app"></div>
+<div class="disc"><b>⚠️ Disclaimer</b>This is not investment advice. Please consult your research analyst before making any investment decision. This is only a broad market outlook, and prices may be delayed or inaccurate.</div>
+<div class="credit">
+  <div class="by">✨ Developed by Dinesh Jaiswar &nbsp;•&nbsp;  ✨</div>
+  <div class="biz">📈 Bqube Investment &nbsp;•&nbsp; 📞 Call us: <a href="tel:7000816068">7000816068</a></div>
+</div>
+</div>
+<script>
+const EMBED = {
+ "asOfLabel": "",
+ "groups": {},
+ "bull": [], "bear": [],
+ "newsIndia": [], "newsWorld": [],
+ "sources": []
+};
+
+const $ = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const app = document.getElementById('app');
+const ICON = [['sensex','📈'],['nifty se','↔️'],['gift','🎁'],['nifty','🎯'],['bank','🏦'],['vix','😱'],['dow','🏛️'],['s&p','🇺🇸'],['nasdaq','💻'],['ftse','🇬🇧'],['euro','🇪🇺'],['dax','🇩🇪'],['nikkei','🇯🇵'],['kospi','🇰🇷'],['hang','🇭🇰'],['brent','🛢️'],['wti','⛽'],['sona','🥇'],['chandi','🥈'],['usd/inr','💵'],['dollar','💲'],['yield','🏷️']];
+const icon = n => (ICON.find(([k]) => n.toLowerCase().includes(k)) || [0,'📊'])[1];
+
+function quote(t, big) {
+  const cls = t.dir === 'up' ? 'up' : t.dir === 'down' ? 'dn' : '';
+  const q = $('div', 'q ' + cls + (t.old ? ' old' : '') + (big ? ' big' : ''));
+  const c = [t.chg, t.pct].filter(Boolean).join('  ');
+  q.append($('div', 'e', icon(t.name)), $('div', 'n', t.name), $('div', 'l', t.level),
+    $('div', 'b', (t.old ? 'purana: ' : '') + (t.basis || '')), $('div', 'c', (t.dir === 'up' ? '▲ ' : t.dir === 'down' ? '▼ ' : '') + c));
+  return q;
+}
+function panel(title, tiles, big) {
+  const p = $('div', 'panel');
+  if (title) p.append($('h3', '', title));
+  (tiles || []).forEach(t => p.append(quote(t, big)));
+  if (!tiles || !tiles.length) p.append($('div', 'empty', 'Data nahi aaya 🫥'));
+  return p;
+}
+let sec = 0;
+function section(title, cls, panels) {
+  const w = $('section', 's' + (++sec)); w.append($('h2', '', title));
+  const g = $('div', 'grid ' + cls); panels.forEach(p => g.append(p)); w.append(g); app.append(w);
+}
+function stocks(list, kind, title, em) {
+  const p = $('div', 'panel hot ' + kind); p.append($('h3', '', title));
+  if (!list.length) p.append($('div', 'empty', 'Aaj ka data nahi aaya 🫥'));
+  list.forEach((s, i) => {
+    const r = $('div', 's ' + (s.dir === 'down' ? 'dn' : 'up')), top = $('div', 'top');
+    const nm = $('span'); nm.append($('i', '', em[i % em.length]), s.name);
+    top.append(nm, $('span', 'pill', s.price + '  ' + s.pct)); r.append(top);
+    if (s.note) { const w = $('div', 'why'), a = $('a', '', '📰 ' + s.note + (s.when ? '  •  ⏱️ ' + s.when : '')); a.href = s.link; a.target = '_blank'; a.rel = 'noopener'; w.append(a); r.append(w); }
+    p.append(r);
+  });
+  return p;
+}
+function news(list, title) {
+  const p = $('div', 'panel news'); p.append($('h3', '', title));
+  if (!list.length) p.append($('div', 'empty', 'Pichle 24 ghante mein nayi khabar nahi mili 🌙'));
+  list.forEach(n => {
+    const a = $('a'); a.href = n.link; a.target = '_blank'; a.rel = 'noopener';
+    a.append($('div', 't', n.title), $('div', 'm', '🗞️ ' + n.tag + '  •  ⏱️ ' + n.when)); p.append(a);
+  });
+  return p;
+}
+
+const g = EMBED.groups || {};
+document.getElementById('asof').textContent = EMBED.asOfLabel || 'abhi tak data nahi';
+if (!Object.keys(g).length) {
+  const p = $('div', 'panel'); p.style.marginTop = '28px';
+  p.append($('div', 'empty', 'Abhi data nahi hai 🌱 bazaar_update.bat chalayein, naya page ban jayega.'));
+  app.append(p);
+} else {
+  const nf = (g.india || []).find(t => t.name === 'Nifty 50' && !t.old);
+  if (nf && nf.dir !== 'flat') {
+    const up = nf.dir === 'up', m = $('div', 'mood ' + (up ? 'up' : 'dn'));
+    m.append($('span', '', up ? '🐂 Aaj ka mood: Tezi!' : '🐻 Aaj ka mood: Mandi'), $('span', '', nf.pct), $('small', '', 'Nifty 50 ke pichhle close ke hisaab se'));
+    document.getElementById('mood').append(m);
+  }
+  section('🇮🇳 Bharat ka bazaar', 'g2', [panel('📊 Index', g.india, true), panel('🔮 Bharat ke futures', g.inFut)]);
+  section('🌍 Duniya ke bazaar', 'g3', [panel('🗽 Amrika', g.us), panel('🏰 Europe', g.eu), panel('🏯 Asia', g.asia)]);
+  section('🔮 Unke futures', 'g3', [panel('🗽 Amrika', g.usFut), panel('🏰 Europe', g.euFut), panel('🏯 Asia', g.asiaFut)]);
+  section('🛢️ Tel, sona-chandi, dollar, bond', 'g2', [panel('', (g.macro || []).slice(0, 4)), panel('', (g.macro || []).slice(4))]);
+  section('🔥 Aaj ke hot stocks', 'g2', [stocks(EMBED.bull, 'bull', '🐂 Tezi mein (Nifty 50)', ['🚀','🔥','⚡','💪','🌟']), stocks(EMBED.bear, 'bear', '🐻 Mandi mein (Nifty 50)', ['🧊','🥶','📉','⚠️','🍂'])]);
+  section('📰 Taaza khabrein', 'g2', [news(EMBED.newsIndia, '🇮🇳 India ki khabrein'), news(EMBED.newsWorld, '🌍 Duniya ki khabrein')]);
+  const ws = $('section', 's7'); ws.append($('h2', '', '🔗 Sources'));
+  const ul = $('ul', 'src');
+  (EMBED.sources || []).forEach(s => { const li = $('li'), a = $('a', '', s.t); a.href = s.u; a.target = '_blank'; a.rel = 'noopener'; li.append(a); ul.append(li); });
+  ws.append(ul); app.append(ws);
+}
+</script>
+</body>
+</html>
