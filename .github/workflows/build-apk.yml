@@ -73,7 +73,7 @@ jobs:
           OUT=android/app/build/outputs/apk/release
           UNSIGNED=$(ls $OUT/*.apk | head -1)
           $BT/zipalign -p -f 4 "$UNSIGNED" aligned.apk
-          $BT/apksigner sign --ks release.jks --ks-pass env:KS_PASS --key-alias bazaarkhabar --out BazaarKhabar.apk aligned.apk
+          $BT/apksigner sign --ks release.jks --ks-pass env:KS_PASS --ks-key-alias bazaarkhabar --out BazaarKhabar.apk aligned.apk
           $BT/apksigner verify --print-certs BazaarKhabar.apk
 
       - uses: actions/upload-artifact@v4
