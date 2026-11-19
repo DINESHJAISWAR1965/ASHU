@@ -80,6 +80,10 @@
     const d = istNow(); let h = d.getUTCHours(); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
     return `${p2(d.getUTCDate())} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}, ${p2(h)}:${p2(d.getUTCMinutes())} ${ap} IST`.replace(/^0/, '');
   }
+  function stamp(dt) {   // "18 Nov, 3:30 PM IST"
+    const d = new Date(dt.getTime() + 330 * 60000); let h = d.getUTCHours(); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+    return `${d.getUTCDate()} ${MON[d.getUTCMonth()]}, ${h}:${p2(d.getUTCMinutes())} ${ap} IST`;
+  }
   const safeUrl = u => (typeof u === 'string' && /^https?:\/\//i.test(u) ? u : '#');
   function fmtIn(n, dec) {
     dec = dec == null ? 2 : dec;
@@ -112,9 +116,17 @@
     const q = encodeURIComponent(sym); let last;
     for (const host of ['query1', 'query2']) {
       try {
-        const j = await getJson(`https://${host}.finance.yahoo.com/v8/finance/chart/${q}?range=10d&interval=1d`, 2);
+        const j = await getJson(`https://${host}.finance.yahoo.com/v8/finance/chart/${q}?range=10d&interval=1d&includePrePost=false&_=${Date.now()}`, 2);
         const r = j.chart.result[0], cl = r.indicators.quote[0].close, rows = [];
         r.timestamp.forEach((t, i) => { if (cl[i] != null) rows.push([new Date(t * 1000), Number(cl[i])]); });
+        // FIX: Yahoo ki daily candle aksar 1 din peeche rehti hai. meta ka regularMarketPrice/Time sabse taaza hota hai.
+        const m = r.meta || {};
+        if (m.regularMarketPrice != null && m.regularMarketTime && rows.length) {
+          const off = (m.gmtoffset || 0) * 1000, dayOf = d => Math.floor((d.getTime() + off) / 86400000);
+          const mt = new Date(m.regularMarketTime * 1000), lastRow = rows[rows.length - 1];
+          if (dayOf(mt) > dayOf(lastRow[0])) rows.push([mt, Number(m.regularMarketPrice)]);   // nayi trading day ki candle gayab thi
+          else if (dayOf(mt) === dayOf(lastRow[0]) && mt >= lastRow[0]) rows[rows.length - 1] = [mt, Number(m.regularMarketPrice)];
+        }
         if (rows.length >= 2) return rows;
         last = new Error('kam data mila');
       } catch (e) { last = e; }
@@ -123,41 +135,60 @@
   }
   async function yahooTile(name, sym, fmt) {
     const rows = await yahooRows(sym), a = rows[rows.length - 1], b = rows[rows.length - 2];
-    const d = new Date(a[0].getTime() + 330 * 60000);
-    return tile(name, a[1], b[1], fmt, `${p2(d.getUTCDate())} ${MON[d.getUTCMonth()]}, last price/close`, a[0]);
+    return tile(name, a[1], b[1], fmt, `${stamp(a[0])} • last price/close`, a[0]);
   }
   async function tvQuotes(tickers) {
     const body = { symbols: { tickers }, columns: ['close', 'change', 'change_abs'] };
-    let last;
-    for (const market of ['futures', 'global']) {
+    const out = {}; let last;
+    await Promise.all(['global', 'america', 'india', 'futures', 'cfd', 'forex'].map(async market => {
       try {
         const j = JSON.parse(await req({ url: `https://scanner.tradingview.com/${market}/scan`, method: 'POST',
           headers: { 'Content-Type': 'application/json' }, data: body }));
-        const out = {};
-        (j.data || []).forEach(x => { if (x.d && x.d[0] != null) out[x.s] = x.d; });
-        if (Object.keys(out).length) return out;
+        (j.data || []).forEach(x => { if (x.d && x.d[0] != null && !(x.s in out)) out[x.s] = x.d; });
       } catch (e) { last = e; }
-    }
-    throw last || new Error('koi data nahi aaya');
+    }));
+    if (!Object.keys(out).length) throw last || new Error('koi data nahi aaya');
+    return out;
   }
+  // Index ke liye TradingView pehle (taaza close/live), na mile to Yahoo. Har naam ke ek se zyada ticker try hote hain.
+  const TV_INDEX = {
+    'Sensex': ['BSE:SENSEX', 'TVC:SENSEX'], 'Nifty 50': ['NSE:NIFTY', 'TVC:NIFTY'], 'Bank Nifty': ['NSE:BANKNIFTY', 'TVC:BANKNIFTY'],
+    'India VIX': ['NSE:INDIAVIX'],
+    'Dow Jones': ['DJ:DJI', 'TVC:DJI'], 'S&P 500': ['SP:SPX', 'TVC:SPX'], 'Nasdaq': ['NASDAQ:IXIC', 'TVC:IXIC'], 'US VIX': ['CBOE:VIX', 'TVC:VIX'],
+    'FTSE 100': ['TVC:UKX', 'FTSE:UKX'], 'Euro Stoxx 50': ['TVC:SX5E', 'STOXX:SX5E'], 'DAX': ['XETR:DAX', 'TVC:DAX'],
+    'Nikkei 225': ['TVC:NI225', 'INDEX:NKY'], 'KOSPI': ['KRX:KOSPI', 'TVC:KOSPI'], 'Hang Seng': ['TVC:HSI', 'HSI:HSI'],
+  };
   async function buildGroups(log) {
     const g = {};
     for (const key of Object.keys(YAHOO)) g[key] = new Array(YAHOO[key].length);
-    const jobs = [];
-    Object.keys(YAHOO).forEach(key => YAHOO[key].forEach(([name, sym, fmt], i) => jobs.push(async () => {
-      try { g[key][i] = await yahooTile(name, sym, fmt); log('ok   ' + name); }
-      catch (e) { g[key][i] = tile(name, null, null, fmt, 'fetch nahi hua'); log('FAIL ' + name + ': ' + e.message); }
-    })));
+    // 1) TradingView: index + futures ek saath
     let q = {};
-    jobs.push(async () => {
-      try { q = await tvQuotes(Object.values(FUTURES).flat().map(x => x[1])); }
-      catch (e) { log('FAIL futures (TradingView): ' + e.message); }
-    });
+    try { q = await tvQuotes(Object.values(FUTURES).flat().map(x => x[1]).concat(Object.values(TV_INDEX).flat())); }
+    catch (e) { log('FAIL TradingView: ' + e.message); }
+    const jobs = [];
+    Object.keys(YAHOO).forEach(key => YAHOO[key].forEach(([name, sym, fmt], i) => {
+      const hit = (TV_INDEX[name] || []).map(t => q[t]).find(Boolean);
+      if (hit) {
+        g[key][i] = tile(name, hit[0], null, fmt, 'TradingView • date nahi mili', null, hit[2], hit[1]); log('ok   ' + name + ' (TV)');
+        jobs.push(async () => {      // sirf tareekh/samay ke liye Yahoo se poochho; bhaav TradingView ka hi rahega
+          try {
+            const rows = await yahooRows(sym), dt = rows[rows.length - 1][0];
+            g[key][i].basis = `${stamp(dt)} • TradingView`;
+            if ((Date.now() - dt.getTime()) / 86400000 > 3) g[key][i].old = true;
+          } catch (e) { /* basis jaisa hai waisa rahe */ }
+        });
+        return;
+      }
+      jobs.push(async () => {      // 2) TradingView mein na mile to Yahoo (ab meta ke taaza bhaav ke saath)
+        try { g[key][i] = await yahooTile(name, sym, fmt); log('ok   ' + name); }
+        catch (e) { g[key][i] = tile(name, null, null, fmt, 'fetch nahi hua'); log('FAIL ' + name + ': ' + e.message); }
+      });
+    }));
     await Promise.all(jobs.map(f => f()));
     for (const key of Object.keys(FUTURES)) {
       g[key] = FUTURES[key].map(([name, t]) => {
         const d = q[t];
-        return d ? tile(name, d[0], null, 'plain', 'futures, live/near-live', null, d[2], d[1]) : tile(name, null, null, 'plain', 'source se nahi mila');
+        return d ? tile(name, d[0], null, 'plain', `futures • ${stamp(new Date())} par liya`, null, d[2], d[1]) : tile(name, null, null, 'plain', 'source se nahi mila');
       });
     }
     const gift = g.inFut.find(x => x.name === 'Gift Nifty' && 'raw' in x), nifty = g.india.find(x => x.name === 'Nifty 50' && 'raw' in x);
